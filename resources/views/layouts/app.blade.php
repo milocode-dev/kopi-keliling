@@ -10,13 +10,18 @@
 </head>
 <body class="bg-gray-200 text-gray-800">
 
-    <nav class="bg-yellow-800 text-white px-6 py-4 d-flex justify-content-between align-items-center">
-    <a href="#" class="text-white fw-bold text-decoration-none fs-5">☕ Kopi Gerobakan</a>
-    <div class="d-flex gap-3">
-        <a href="{{ route('transaksi.index') }}" class="text-white text-decoration-none">POS Kasir</a>
-        <a href="{{ route('transaksi.riwayat') }}" class="text-white text-decoration-none">Riwayat Transaksi</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="{{ route('dashboard') }}">☕ Kopi Gerobakan</a>
+    <div class="navbar-nav ms-auto gap-2">
+      <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
+      <a class="nav-link" href="{{ route('kategori.index') }}">Kategori</a>
+      <a class="nav-link" href="{{ route('menu.index') }}">Menu</a>
+      <a class="nav-link" href="{{ route('transaksi.index') }}">POS Kasir</a>
+      <a class="nav-link" href="{{ route('transaksi.riwayat') }}">Riwayat</a>
     </div>
-    </nav>
+  </div>
+</nav>
 
     <main class="min-h-screen">
         @yield('content')

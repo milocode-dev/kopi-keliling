@@ -12,8 +12,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategories = Kategori::lastest()->get();
-        return view('kategori.index', compact('kategories'));
+        $kategoris = Kategori::latest()->get();
+        return view('kategori.index', compact('kategoris'));
     }
 
     /**
