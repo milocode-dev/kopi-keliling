@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
             $table->string('nama_menu');
+            $table->text('deskripsi')->nullable();
             $table->integer('harga');
             $table->string('gambar')->nullable();
             $table->timestamps();
@@ -28,4 +29,6 @@ return new class extends Migration
     {
         Schema::dropIfExists('menus');
     }
+
+    
 };

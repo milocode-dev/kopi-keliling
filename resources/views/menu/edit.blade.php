@@ -1,84 +1,104 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Menu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Edit Menu</h1>
-            <a href="{{ route('menu.index') }}" class="text-gray-600 hover:text-gray-800 text-sm">
-                &larr; Kembali
-            </a>
-        </div>
+@extends('layouts.app')
 
-        {{-- Error Validation Notice --}}
-        @if ($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 text-sm">
-                <ul class="list-disc pl-5">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+@section('title', 'Edit Menu')
 
-        <form action="{{ route('menu.update', $menu->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-            @csrf
-            @method('PUT')
-
-            {{-- Kategori --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Kategori</label>
-                <select name="kategori_id" class="w-full border-gray-300 rounded-md p-2 border focus:ring-2 focus:ring-blue-500" required>
-                    <option value="">-- Pilih Kategori --</option>
-                    @foreach ($kategories as $kategori)
-                        <option value="{{ $kategori->id }}" {{ old('kategori_id', $menu->kategori_id) == $kategori->id ? 'selected' : '' }}>
-                            {{ $kategori->nama_kategori }}
-                        </option>
-                    @endforeach
-                </select>
+@section('content')
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Header & Tombol Kembali -->
+            <div class="d-flex align-items-center mb-4">
+                <a href="{{ route('menu.index') }}" class="btn btn-light border rounded-pill px-3 shadow-sm text-secondary me-3">
+                    <i class="bi bi-arrow-left"></i> Kembali
+                </a>
+                <h2 class="fw-bold mb-0" style="color: #5a3822;">
+                    Edit Menu ☕
+                </h2>
             </div>
 
-            {{-- Nama Menu --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Nama Menu</label>
-                <input type="text" name="nama_menu" value="{{ old('nama_menu', $menu->nama_menu) }}" class="w-full border-gray-300 rounded-md p-2 border focus:ring-2 focus:ring-blue-500" required>
-            </div>
+            <!-- Card Form Edit -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <form action="{{ route('menu.update', $menu->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
 
-            {{-- Harga --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Harga (Rp)</label>
-                <input type="number" name="harga" value="{{ old('harga', $menu->harga) }}" class="w-full border-gray-300 rounded-md p-2 border focus:ring-2 focus:ring-blue-500" required>
-            </div>
-
-            {{-- Gambar Saat Ini & Input Upload Gambar Baru --}}
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Gambar Menu</label>
-                
-                @if ($menu->gambar)
-                    <div class="mb-2">
-                        <span class="text-xs text-gray-500 block mb-1">Gambar saat ini:</span>
-                        <img src="{{ asset('storage/' . $menu->gambar) }}" alt="{{ $menu->nama_menu }}" class="w-24 h-24 object-cover rounded-md border">
+                    <!-- Kategori -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">Kategori</label>
+                        <select name="kategori_id" class="form-select rounded-pill px-3 py-2 shadow-sm @error('kategori_id') is-invalid @enderror" required>
+                            <option value="">Pilih Kategori</option>
+                            @foreach($kategoris as $kat)
+                                <option value="{{ $kat->id }}" {{ old('kategori_id', $menu->kategori_id) == $kat->id ? 'selected' : '' }}>
+                                    {{ $kat->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('kategori_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                @endif
 
-                <input type="file" name="gambar" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                <p class="text-xs text-gray-500 mt-1">Kosongkan jika tidak ingin mengubah gambar.</p>
+                    <!-- Nama Menu -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">Nama Menu</label>
+                        <input type="text" name="nama_menu" value="{{ old('nama_menu', $menu->nama_menu) }}" 
+                               class="form-control rounded-pill px-3 py-2 shadow-sm @error('nama_menu') is-invalid @enderror" required>
+                        @error('nama_menu')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Deskripsi Menu -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">Deskripsi Menu</label>
+                        <textarea name="deskripsi" rows="3" 
+                                  class="form-control rounded-4 px-3 py-2 shadow-sm @error('deskripsi') is-invalid @enderror">{{ old('deskripsi', $menu->deskripsi) }}</textarea>
+                        @error('deskripsi')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Harga -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary">Harga (Rp)</label>
+                        <input type="number" name="harga" value="{{ old('harga', $menu->harga) }}" 
+                               class="form-control rounded-pill px-3 py-2 shadow-sm @error('harga') is-invalid @enderror" required>
+                        @error('harga')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Gambar Saat Ini -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold text-secondary d-block">Gambar Saat Ini</label>
+                        @if($menu->gambar)
+                            <img src="{{ Str::startsWith($menu->gambar, 'http') ? $menu->gambar : asset('storage/' . $menu->gambar) }}" 
+                                 alt="{{ $menu->nama_menu }}" 
+                                 class="rounded-3 border object-fit-cover shadow-sm mb-2" style="width: 100px; height: 100px;">
+                        @else
+                            <p class="text-muted small">Tidak ada gambar.</p>
+                        @endif
+                    </div>
+
+                    <!-- Upload Gambar Baru -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold text-secondary">Ganti Gambar Baru (Opsional)</label>
+                        <input type="file" name="gambar" class="form-control rounded-pill px-3 py-2 shadow-sm @error('gambar') is-invalid @enderror">
+                        <small class="text-muted mt-1 d-block">Kosongkan jika tidak ingin mengubah gambar.</small>
+                        @error('gambar')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <!-- Tombol Simpan -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn text-white fw-bold py-2 rounded-pill shadow-sm" style="background-color: #6b4423;">
+                            Perbarui Menu
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            {{-- Tombol Submit --}}
-            <div class="pt-4">
-                <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-medium py-2 rounded-md transition">
-                    Update Menu
-                </button>
-            </div>
-        </form>
-
+        </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

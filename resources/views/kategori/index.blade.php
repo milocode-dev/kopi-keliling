@@ -3,52 +3,70 @@
 @section('title', 'Data Kategori')
 
 @section('content')
-<div class="max-w-4xl mx-auto px-6 py-10">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold text-amber-900">Data Kategori</h1>
-        <a href="{{ route('kategori.create') }}"
-           class="bg-amber-800 text-white px-4 py-2 rounded-lg hover:bg-amber-900">
+<div class="container py-4" style="max-width: 800px;">
+    <!-- Header Page -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1" style="color: #5a3822;">Data Kategori</h2>
+            <p class="text-muted small mb-0">Kelola kategori menu Kopi Gerobakan.</p>
+        </div>
+        <a href="{{ route('kategori.create') }}" 
+           class="btn text-white fw-bold px-4 rounded-pill shadow-sm" style="background-color: #6b4423;">
             + Tambah Kategori
         </a>
     </div>
 
+    <!-- Notifikasi Sukses -->
     @if(session('success'))
-        <div class="bg-green-100 text-green-700 px-4 py-2 rounded-lg mb-4">
+        <div class="alert alert-success alert-dismissible fade show rounded-4 shadow-sm mb-4" role="alert">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
-    <div class="bg-white shadow-2xl rounded-xl overflow-hidden">
-        <table class="w-full text-left">
-            <thead class="bg-amber-100 text-amber-900">
-                <tr>
-                    <th class="px-6 py-3">Nama Kategori</th>
-                    <th class="px-6 py-3 text-right">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse($kategoris as $kategori)
-                <tr class="border-t">
-                    <td class="px-6 py-4">{{ $kategori->nama_kategori }}</td>
-                    <td class="px-6 py-4 text-right space-x-2">
-                        <a href="{{ route('kategori.edit', $kategori->id) }}"
-                           class="text-amber-700 hover:underline">Edit</a>
-                        <form action="{{ route('kategori.destroy', $kategori->id) }}"
-                              method="POST" class="inline"
-                              onsubmit="return confirm('Yakin hapus kategori ini?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="2" class="px-6 py-4 text-center text-gray-500">Belum ada data kategori</td>
-                </tr>
-                @endforelse
-            </tbody>
-        </table>
+    <!-- Tabel Data Kategori -->
+    <div class="card shadow-sm rounded-4 border-0 bg-white">
+        <div class="card-body p-4">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="py-3 rounded-start">Nama Kategori</th>
+                            <th class="py-3 text-end rounded-end" style="width: 150px;">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($kategoris as $kategori)
+                            <tr>
+                                <td class="fw-semibold text-dark">{{ $kategori->nama_kategori }}</td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ route('kategori.edit', $kategori->id) }}" 
+                                           class="btn btn-sm text-white px-3 rounded-pill" style="background-color: #8c5830;">
+                                            Edit
+                                        </a>
+                                        <form action="{{ route('kategori.destroy', $kategori->id) }}" 
+                                              method="POST" 
+                                              onsubmit="return confirm('Yakin hapus kategori ini?')" 
+                                              class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger px-3 rounded-pill">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="2" class="text-center py-4 text-muted">Belum ada data kategori.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
