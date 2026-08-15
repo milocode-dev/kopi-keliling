@@ -42,6 +42,6 @@ class User extends Authenticatable
         return $this->hasMany(CartItem::class);
     }
 
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password', 'role', 'phone', 'address'];
 
 }

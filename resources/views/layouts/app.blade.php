@@ -34,29 +34,60 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Menu navigasi -->
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-md-center gap-lg-2">
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('home') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('home') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('dashboard') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('kategori.*') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('kategori.index') }}">Kategori</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('menu.*') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('menu.index') }}">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('transaksi.index') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('transaksi.index') }}">POS Kasir</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('transaksi.riwayat') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('transaksi.riwayat') }}">Riwayat</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white-50 {{ request()->routeIs('tentang-kami') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('tentang-kami') }}">Tentang Kami</a>
-                        </li>
-                    </ul>
+                   <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-md-center gap-lg-2">
+
+    <li class="nav-item">
+        <a class="nav-link text-white-50 {{ request()->routeIs('home') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('home') }}">Home</a>
+    </li>
+
+    @auth
+        @if(auth()->user()->role === 'admin')
+            {{-- Menu khusus Admin --}}
+            <li class="nav-item">
+                <a class="nav-link text-white-50 {{ request()->routeIs('dashboard') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white-50 {{ request()->routeIs('kategori.*') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('kategori.index') }}">Kategori</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white-50 {{ request()->routeIs('menu.*') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('menu.index') }}">Menu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white-50 {{ request()->routeIs('transaksi.index') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('transaksi.index') }}">POS Kasir</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white-50 {{ request()->routeIs('transaksi.riwayat') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('transaksi.riwayat') }}">Riwayat</a>
+            </li>
+        @else
+            {{-- Menu khusus Customer yang sudah login --}}
+            <li class="nav-item">
+                <a class="nav-link text-white-50" href="#">Pesanan Saya</a>
+            </li>
+        @endif
+
+        <li class="nav-item">
+            <a class="nav-link text-white-50" href="#">Halo, {{ auth()->user()->name }}</a>
+        </li>
+        <li class="nav-item">
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-sm btn-outline-light">Logout</button>
+            </form>
+        </li>
+    @else
+        {{-- Menu untuk yang belum login (guest) --}}
+        <li class="nav-item">
+            <a class="nav-link text-white-50 {{ request()->routeIs('tentang-kami') ? 'active text-white fw-bold border-bottom border-2 border-white' : '' }}" href="{{ route('tentang-kami') }}">Tentang Kami</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-white-50" href="{{ route('auth.login') }}">Login</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-warning btn-sm text-dark fw-semibold ms-lg-2" href="{{ route('auth.register') }}">Daftar</a>
+        </li>
+    @endauth
+
+</ul>
                 </div>
             </div>
         </nav>
