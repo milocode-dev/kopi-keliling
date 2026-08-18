@@ -14,7 +14,6 @@
 
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
   
 </head>
 <body class="bg-light">
@@ -24,7 +23,7 @@
             <div class="container">
                 <!-- Logo dengan ikon cangkir kopi Bootstrap -->
                 <a class="navbar-brand fw-bold d-flex align-items-center gap-2 text-white fs-5" href="{{ route('home') }}">
-                    <i class="bi bi-cup-hot-fill fs-4 text-warning"></i> Kopi Gerobakan
+                     Kopi Gerobakan
                 </a>
 
                 <!-- Tombol Toggler untuk HP/Mobile -->
