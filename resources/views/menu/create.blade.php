@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container py-4" style="max-width: 600px;">
-    <h2 class="fw-bold mb-4" style="color: #5a3822;">Tambah Menu ☕</h2>
+    <h2 class="fw-bold mb-4" style="color: #5a3822;">Tambah Menu </h2>
 
     <form action="{{ route('menu.store') }}" method="POST" enctype="multipart/form-data"
           class="card shadow-sm rounded-4 p-4 border">

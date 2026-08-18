@@ -12,7 +12,7 @@
                     <i class="bi bi-arrow-left"></i> Kembali
                 </a>
                 <h2 class="fw-bold mb-0" style="color: #5a3822;">
-                    Edit Menu ☕
+                    Edit Menu 
                 </h2>
             </div>
 

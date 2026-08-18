@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Testimoni;
 
 class HomeController extends Controller
 {
-    public function index() {
-        return view('home');
+    public function index()
+    {
+        $testimoni = Testimoni::latest()->get();
+
+        return view('home', compact('testimoni'));
     }
 }
